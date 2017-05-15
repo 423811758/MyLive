@@ -2,6 +2,10 @@ package com.wzd.mylive.model;
 
 import android.util.Log;
 
+import com.wzd.mylive.Event.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
+
 import cn.bmob.push.lib.util.LogUtil;
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.exception.BmobException;
@@ -21,6 +25,9 @@ public class BaseBmob extends BmobObject {
             @Override
             public void done(String s, BmobException e) {
                 if(e == null){
+                    MessageEvent msg = new MessageEvent();
+                    msg.setMessage(s);
+                    EventBus.getDefault().post(msg);
                     Log.i("test", "添加数据成功，返回objectId为："+s);
                 }
                 else{
